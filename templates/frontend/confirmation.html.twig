@@ -1,0 +1,45 @@
+{# @var personalization \ProjectsM\MembershipWordpress\Api\Data\ClientPersonalization #}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="{{ cssFile }}">
+        <title>{{ website.name }}</title>
+
+        {%- if personalization.websiteCss is not empty -%}
+            <style>{{ personalization.websiteCss | raw }}</style>
+        {%- endif -%}
+    </head>
+    <body>
+        <div class="_membership-confirmation">
+            {%- if personalization.successHeaderImage is not null -%}
+                <div class="_membership-confirmation-header-image">
+                    <img src="{{ personalization.successHeaderImage }}" alt="{{ website.name }}">
+                </div>
+            {%- endif -%}
+
+            <h2>{{ website.name }}</h2>
+            {%- if isError -%}
+                <p>Die Anmeldung konnte nicht bestätigt werden. Bitte versuchen Sie die Anmeldung erneut oder kommen Sie direkt bei uns vorbei.</p>
+            {%- else -%}
+                <p>Ihre Anmeldung wurde bestätigt. Vielen Dank.</p>
+                <p>Sie werden zur <a href="{{ website.url }}">Startseite weitergeleitet</a>...</p>
+            {%- endif -%}
+
+            <script>
+                (function (window) {
+                    window.setTimeout(
+                        function ()
+                        {
+                            document.location = "{{ website.url }}";
+                        },
+                        3000
+                    );
+                })(window);
+            </script>
+        </div>
+    </body>
+</html>

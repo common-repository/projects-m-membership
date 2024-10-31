@@ -1,0 +1,12 @@
+{% extends "admin/layout.html.twig" %}
+
+{%- block content -%}
+    {%- if successAlert is not empty -%}
+        <div id="message" class="updated notice notice-success is-dismissible">
+            <p>{{ successAlert }}</p>
+            <button type="button" class="notice-dismiss"><span class="screen-reader-text">Diese Meldung ausblenden.</span></button>
+        </div>
+    {%- endif -%}
+
+    {{ table.display }}
+{%- endblock -%}

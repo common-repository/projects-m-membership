@@ -1,0 +1,103 @@
+{% extends "admin/layout.html.twig" %}
+
+{%- block content -%}
+    <h2>Konfiguration</h2>
+
+    {%- if successMessage is not empty -%}
+        <div id="message" class="updated notice notice-success is-dismissible">
+            <p>{{ successMessage }}</p>
+            <button type="button" class="notice-dismiss"><span class="screen-reader-text">Diese Meldung ausblenden.</span></button>
+        </div>
+    {%- endif -%}
+
+    {%- if errorMessage is not empty -%}
+        <div id="message" class="notice notice-error is-dismissible">
+            <p>{{ errorMessage }}</p>
+            <button type="button" class="notice-dismiss"><span class="screen-reader-text">Diese Meldung ausblenden.</span></button>
+        </div>
+    {%- endif -%}
+
+    <form action="{{ formAction }}" method="post">
+        <table class="form-table">
+            <tbody>
+                <tr>
+                    <th>
+                        <label for="pm_membership-api_key">Schlüssel</label>
+                    </th>
+                    <td>
+                        <input type="text" id="pm_membership-api_key" name="pm_membership[api_key]" value="{{ apiKey | e("html_attr") }}" autocomplete="off" class="regular-text strong">
+                        <p class="description" id="pm_membership-api_key-description">Ihren Schlüssel finden Sie auf Ihrer <a href="{{ accountUrl }}" target="_blank">Account-Seite</a>.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="submit">
+            <input type="submit" name="submit" class="button button-primary" value="Profil aktualisieren">
+        </p>
+    </form>
+
+    <h2 class="title">Notification E-Mails</h2>
+    <p>Die E-Mail-Adressen, an die zusätzlich die Registrierungsmails verschickt werden sollen. Mehrere Adressen mit <code>;</code> trennen.</p>
+
+    <form action="{{ formAction }}" method="post">
+        <table class="form-table">
+            <tr>
+                <th>
+                    <label for="pm_membership-admin_email">Fallback</label>
+                </th>
+                <td>
+                    <input type="text" id="pm_membership-admin_email" name="pm_membership[admin_email]" value="{{ adminEmail | e("html_attr") }}" autocomplete="off" class="regular-text strong">
+                    <p class="description" id="pm_membership-admin_email-description">Fallback, falls für den konkreten Vertrag keine Adresse hinterlegt ist.</p>
+                </td>
+            </tr>
+
+            {%- for contract in allContracts -%}
+                <tr>
+                    <th>
+                        <label for="pm_membership-admin_email_{{ contract.id }}">Vertrag: „{{ contract.name }}“</label>
+                    </th>
+                    <td>
+                        <input type="text" id="pm_membership-admin_email_{{ contract.id }}" name="pm_membership[admin_email_{{ contract.id }}]" value="{{ contract.value | e("html_attr") }}" autocomplete="off" class="regular-text strong">
+                        <p class="description" id="pm_membership-admin_email_{{ contract.id }}-description">E-Mail-Adresse für nur diesen Vertrag. Falls leer wird das Fallback verwendet.</p>
+                    </td>
+                </tr>
+            {%- endfor -%}
+        </table>
+
+        <p class="submit">
+            <input type="submit" name="submit" class="button button-primary" value="Speichern">
+        </p>
+    </form>
+
+
+    <h2 class="title">Test-E-Mail versenden</h2>
+
+
+    <form action="{{ formAction }}" method="post">
+        <table class="form-table">
+            <tbody>
+                <tr>
+                    <th>
+                        <label for="pm_membership-test_contract">Vertrag</label>
+                    </th>
+                    <td>
+                        <input type="text" id="pm_membership-test_contract" name="pm_membership[test_contract]" value="{{ testContract }}" autocomplete="off" class="small-text strong">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="pm_membership-test_recipient">Empfänger</label>
+                    </th>
+                    <td>
+                        <input type="text" id="pm_membership-test_recipient" name="pm_membership[test_recipient]" value="{{ testRecipient }}" autocomplete="off" class="regular-text strong">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="submit">
+            <input type="submit" name="submit" class="button button-primary" value="Test-Email versenden">
+        </p>
+    </form>
+{%- endblock -%}

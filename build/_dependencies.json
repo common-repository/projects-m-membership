@@ -1,0 +1,7 @@
+{
+	"js/membership.js": {
+		"modern": [
+			"js/modern/membership.js"
+		]
+	}
+}
